@@ -127,15 +127,15 @@ public class RecyclerViewManager {
             return ConfigUtils.getImageTitle(context, config);
         }
 
-        final int imageSize = imageAdapter.getSelectedImages().size();
+        final int imageSize = imageAdapter.getSelectedFiles().size();
         final boolean useDefaultTitle = !ImagePickerUtils.isStringEmpty(config.getImageTitle()) && imageSize == 0;
 
         if (useDefaultTitle) {
             return ConfigUtils.getImageTitle(context, config);
         }
-        return config.getLimit() == MAX_LIMIT
+        return config.getImagesLimit() == MAX_LIMIT
                 ? String.format(context.getString(R.string.ef_selected), imageSize)
-                : String.format(context.getString(R.string.ef_selected_with_limit), imageSize, config.getLimit());
+                : String.format(context.getString(R.string.ef_selected_with_limit), imageSize, config.getImagesLimit() + config.getVideosLimit());
     }
 
     public void setImageAdapter(List<Image> images) {
@@ -167,7 +167,7 @@ public class RecyclerViewManager {
 
     public List<Image> getSelectedImages() {
         checkAdapterIsInitialized();
-        return imageAdapter.getSelectedImages();
+        return imageAdapter.getSelectedFiles();
     }
 
     public void setImageSelectedListener(OnImageSelectedListener listener) {
@@ -175,14 +175,21 @@ public class RecyclerViewManager {
         imageAdapter.setImageSelectedListener(listener);
     }
 
-    public boolean selectImage(boolean isSelected) {
+    public boolean selectImage(Image image, boolean isSelected) {
         if (config.getMode() == MODE_MULTIPLE) {
-            if (imageAdapter.getSelectedImages().size() >= config.getLimit() && !isSelected) {
-                Toast.makeText(context, R.string.ef_msg_limit_images, Toast.LENGTH_SHORT).show();
-                return false;
+            if (ImagePickerUtils.isVideoFormat(image)) {
+                if (imageAdapter.getSelectedVideos().size() >= config.getVideosLimit() && !isSelected) {
+                    Toast.makeText(context, R.string.ef_msg_limit_videos, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            } else {
+                if (imageAdapter.getSelectedImages().size() >= config.getImagesLimit() && !isSelected) {
+                    Toast.makeText(context, R.string.ef_msg_limit_images, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
         } else if (config.getMode() == MODE_SINGLE) {
-            if (imageAdapter.getSelectedImages().size() > 0) {
+            if (imageAdapter.getSelectedFiles().size() > 0) {
                 imageAdapter.removeAllSelectedSingleClick();
             }
         }
@@ -191,7 +198,7 @@ public class RecyclerViewManager {
 
     public boolean isShowDoneButton() {
         return !isDisplayingFolderView()
-                && !imageAdapter.getSelectedImages().isEmpty()
+                && !imageAdapter.getSelectedFiles().isEmpty()
                 && (config.getReturnMode() != ReturnMode.ALL && config.getReturnMode() != ReturnMode.GALLERY_ONLY);
     }
 

@@ -189,7 +189,7 @@ public class ImagePickerFragment extends Fragment implements ImagePickerView {
                 getResources().getConfiguration().orientation
         );
 
-        recyclerViewManager.setupAdapters(selectedImages, (isSelected) -> recyclerViewManager.selectImage(isSelected)
+        recyclerViewManager.setupAdapters(selectedImages, (image, isSelected) -> recyclerViewManager.selectImage(image, isSelected)
                 , bucket -> setImageAdapter(bucket.getImages()));
 
         recyclerViewManager.setImageSelectedListener(selectedImage -> {

@@ -107,8 +107,13 @@ public abstract class ImagePicker {
         return this;
     }
 
-    public ImagePicker limit(int count) {
-        config.setLimit(count);
+    public ImagePicker limitImages(int count) {
+        config.setImagesLimit(count);
+        return this;
+    }
+
+    public ImagePicker limitVideos(int count) {
+        config.setVideosLimit(count);
         return this;
     }
 

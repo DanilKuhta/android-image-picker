@@ -79,6 +79,7 @@ public class ImagePickerAdapter extends BaseListAdapter<ImagePickerAdapter.Image
 
         viewHolder.itemView.setOnClickListener(v -> {
             boolean shouldSelect = itemClickListener.onImageClick(
+                    image,
                     isSelected
             );
 
@@ -150,8 +151,28 @@ public class ImagePickerAdapter extends BaseListAdapter<ImagePickerAdapter.Image
         return images.get(position);
     }
 
-    public List<Image> getSelectedImages() {
+    public List<Image> getSelectedFiles() {
         return selectedImages;
+    }
+
+    public List<Image> getSelectedImages() {
+        List<Image> images = new ArrayList<>();
+        for (Image image : selectedImages) {
+            if (!ImagePickerUtils.isVideoFormat(image)) {
+                images.add(image);
+            }
+        }
+        return images;
+    }
+
+    public List<Image> getSelectedVideos() {
+        List<Image> images = new ArrayList<>();
+        for (Image image : selectedImages) {
+            if (ImagePickerUtils.isVideoFormat(image)) {
+                images.add(image);
+            }
+        }
+        return images;
     }
 
     static class ImageViewHolder extends RecyclerView.ViewHolder {

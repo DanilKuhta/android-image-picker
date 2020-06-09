@@ -26,7 +26,8 @@ public class ImagePickerConfig extends BaseConfig implements Parcelable {
     private int arrowColor = NO_COLOR;
 
     private int mode;
-    private int limit;
+    private int imagesLimit;
+    private int videosLimit;
     private int theme;
 
     private boolean folderMode;
@@ -56,12 +57,20 @@ public class ImagePickerConfig extends BaseConfig implements Parcelable {
         this.mode = mode;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getImagesLimit() {
+        return imagesLimit;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setImagesLimit(int limit) {
+        this.imagesLimit = limit;
+    }
+
+    public int getVideosLimit() {
+        return videosLimit;
+    }
+
+    public void setVideosLimit(int limit) {
+        this.videosLimit = limit;
     }
 
     public boolean isShowCamera() {
@@ -195,7 +204,8 @@ public class ImagePickerConfig extends BaseConfig implements Parcelable {
         dest.writeString(this.doneButtonText);
         dest.writeInt(this.arrowColor);
         dest.writeInt(this.mode);
-        dest.writeInt(this.limit);
+        dest.writeInt(this.imagesLimit);
+        dest.writeInt(this.videosLimit);
         dest.writeInt(this.theme);
         dest.writeByte(this.folderMode ? (byte) 1 : (byte) 0);
         dest.writeByte(this.includeVideo ? (byte) 1 : (byte) 0);
@@ -219,7 +229,8 @@ public class ImagePickerConfig extends BaseConfig implements Parcelable {
         this.doneButtonText = in.readString();
         this.arrowColor = in.readInt();
         this.mode = in.readInt();
-        this.limit = in.readInt();
+        this.imagesLimit = in.readInt();
+        this.videosLimit = in.readInt();
         this.theme = in.readInt();
         this.folderMode = in.readByte() != 0;
         this.includeVideo = in.readByte() != 0;

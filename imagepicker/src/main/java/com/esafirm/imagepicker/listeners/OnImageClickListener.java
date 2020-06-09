@@ -1,5 +1,7 @@
 package com.esafirm.imagepicker.listeners;
 
+import com.esafirm.imagepicker.model.Image;
+
 public interface OnImageClickListener {
-    boolean onImageClick(boolean isSelected);
+    boolean onImageClick(Image image, boolean isSelected);
 }
